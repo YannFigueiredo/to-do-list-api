@@ -1,9 +1,9 @@
 import mysql from "mysql"
 
 class Database {
-    createConnection() {
-        const connection = mysql.createConnection({
-            username: "root",
+    async createConnection() {
+        const connection = await mysql.createConnection({
+            user: "root",
             password: "admin",
             host: "localhost",
             port: "3306",
@@ -14,7 +14,7 @@ class Database {
             console.error("Erro ao estabelecer a conexão: ", error)
         })
 
-        connection.connect((error) => {
+        await connection.connect((error) => {
             if(error)  {
                 console.error("Erro ao estabelecer a conexão com o banco de dados: ", error)
             } else {
