@@ -14,13 +14,13 @@ class TaskController {
     }
 
     async listTasks(req, res) {
-            const result = await TaskRepository.getAll()
-    
-            if(result) {
-                res.status(200).json(result)   
-            } else {
-                res.status(404).json({errorMsg: "Tasks não encontradas."})
-            }
+        const result = await TaskRepository.getAll()
+
+        if(result) {
+            res.status(200).json(result)   
+        } else {
+            res.status(404).json({errorMsg: "Tasks não encontradas."})
+        }
     }
     
     async listTask(req, res) {
@@ -28,10 +28,15 @@ class TaskController {
 
         const result = await TaskRepository.getById(id)
 
+        if(result && result.length === 0) {
+            res.status(404).json({errorMsg: "Task não encontrada."})
+            return
+        }
+
         if(result) {
             res.status(200).json(result)
         } else {
-            res.status(404).json({errorMsg: "Task não encontrada."})
+            res.status(400).json({errorMsg: "Task não encontrada."})
         }
     }
 
@@ -40,6 +45,11 @@ class TaskController {
         const task = req.body
 
         const result = await TaskRepository.update(id, task)
+
+        if(result && result.affectedRows === 0) {
+            res.status(404).json({errorMsg: "Task não encontrada.", databaseInformation: result})
+            return
+        }
 
         if(result) {
             res.status(200).json(result)
@@ -53,10 +63,15 @@ class TaskController {
 
         const result = await TaskRepository.delete(id)
 
+        if(result && result.affectedRows === 0) {
+            res.status(404).json({errorMsg: "Task não encontrada.", databaseInformation: result})
+            return
+        }
+
         if(result) {
             res.status(200).json(result)
         } else {
-            res.status(404).json({errorMsg: "Task não deletada."})
+            res.status(400).json({errorMsg: "Task não deletada."})
         }
     }
 }
