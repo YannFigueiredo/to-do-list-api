@@ -4,76 +4,31 @@ class TaskRepository {
     create(task) {
         const sql = "INSERT INTO tab_tasks SET ?;"
 
-        return new Promise((resolve, reject) => {
-            Database.connection.query(sql, task, (error, result) => {
-                if(error) return reject("Tasks não criada.")
-
-                const row = JSON.parse(JSON.stringify(result))
-
-                return resolve(row)
-            })
-        })
-        .catch(error => console.error(error))
+        return Database.processConsult(sql, task, "Tarefa não criada.")
     }
 
     getAll() {
         const sql = "SELECT * FROM tab_tasks;"
 
-        return new Promise((resolve, reject) => {
-            Database.connection.query(sql, (error, result) => {
-                if(error) return reject("Tasks não encontradas.")
-
-                const row = JSON.parse(JSON.stringify(result))
-
-                return resolve(row)
-            })
-        })
-        .catch(error => console.error(error))
+        return Database.processConsult(sql, "Tarefas não encontradas.")
     }
 
     getById(id) {
         const sql = "SELECT * FROM tab_tasks WHERE id=?;"
 
-        return new Promise((resolve, reject) => {
-            Database.connection.query(sql, id, (error, result) => {
-                if(error) return reject("Task não encontrada.")
-
-                const row = JSON.parse(JSON.stringify(result))
-
-                return resolve(row)
-            })
-        })
-        .catch(error => console.error(error))
+        return Database.processConsult(sql, id, "Tarefa não encontrada.")
     }
 
     update(id, task) {
         const sql = "UPDATE tab_tasks SET ? WHERE id=?;"
 
-        return new Promise((resolve, reject) => {
-            Database.connection.query(sql, [task, id], (error, result) => {
-                if(error) return reject("Task não atualizada.")
-
-                const row = JSON.parse(JSON.stringify(result))
-
-                return resolve(row)
-            })
-        })
-        .catch(error => console.error(error))
+        return Database.processConsult(sql, [id, task], "Tarefa não atualizada.")
     }
 
     delete(id) {
         const sql = "DELETE FROM tab_tasks WHERE id=?;"
 
-        return new Promise((resolve, reject) => {
-            Database.connection.query(sql, id, (error, result) => {
-                if(error) return reject("Task não deletada.")
-
-                const row = JSON.parse(JSON.stringify(result))
-
-                return resolve(row)
-            })
-        })
-        .catch(error => console.error(error))
+        return Database.processConsult(sql, id, "Tarefa não deletada.")
     }
 }
 

@@ -22,6 +22,19 @@ class Database {
             }
         })        
     }
+
+    processConsult(sql, data = "", msgError) {
+        return new Promise((resolve, reject) => {
+            this.connection.query(sql, data, (error, result) => {
+                if(error) return reject(msgError)
+
+                const row = JSON.parse(JSON.stringify(result))
+
+                return resolve(row)
+            })
+        })
+        .catch(error => console.error(error))
+    }
 }
 
 export default new Database()
