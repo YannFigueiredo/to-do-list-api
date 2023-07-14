@@ -9,7 +9,7 @@ class TaskController {
         if(result) {
             res.status(201).json(result)
         } else {
-            res.status(400).json({errorMsg: "Task não criada."})
+            res.status(400).json({errorMsg: "Tarefa não criada."})
         }
     }
 
@@ -19,7 +19,7 @@ class TaskController {
         if(result) {
             res.status(200).json(result)   
         } else {
-            res.status(404).json({errorMsg: "Tasks não encontradas."})
+            res.status(404).json({errorMsg: "Tarefas não encontradas."})
         }
     }
     
@@ -29,14 +29,14 @@ class TaskController {
         const result = await TaskRepository.getById(id)
 
         if(result && result.length === 0) {
-            res.status(404).json({errorMsg: "Task não encontrada."})
+            res.status(404).json({errorMsg: "Tarefa não encontrada."})
             return
         }
 
         if(result) {
             res.status(200).json(result)
         } else {
-            res.status(400).json({errorMsg: "Task não encontrada."})
+            res.status(400).json({errorMsg: "Tarefa não encontrada."})
         }
     }
 
@@ -47,14 +47,14 @@ class TaskController {
         const result = await TaskRepository.update(id, task)
 
         if(result && result.affectedRows === 0) {
-            res.status(404).json({errorMsg: "Task não encontrada.", databaseInformation: result})
+            res.status(404).json({errorMsg: "Tarefa não encontrada.", databaseInformation: result})
             return
         }
 
         if(result) {
             res.status(200).json(result)
         } else {
-            res.status(400).json({errorMsg: "Task não atualizada."})
+            res.status(400).json({errorMsg: "Tarefa não atualizada."})
         }
     }
 
@@ -64,14 +64,14 @@ class TaskController {
         const result = await TaskRepository.delete(id)
 
         if(result && result.affectedRows === 0) {
-            res.status(404).json({errorMsg: "Task não encontrada.", databaseInformation: result})
+            res.status(404).json({errorMsg: "Tarefa não encontrada.", databaseInformation: result})
             return
         }
 
         if(result) {
             res.status(200).json(result)
         } else {
-            res.status(400).json({errorMsg: "Task não deletada."})
+            res.status(400).json({errorMsg: "Tarefa não deletada."})
         }
     }
 }
