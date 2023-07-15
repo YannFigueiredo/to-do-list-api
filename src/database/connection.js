@@ -14,7 +14,7 @@ class Database {
                         id INT NOT NULL AUTO_INCREMENT,
                         title VARCHAR(100) NOT NULL,
                         description VARCHAR(500),
-                        status VARCHAR(20),
+                        status ENUM('a fazer', 'em andamento', 'feito') NOT NULL,
                         PRIMARY KEY(id)
                     );`
 
