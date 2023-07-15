@@ -9,6 +9,25 @@ class Database {
         database: "db_todolist"
     })
 
+    createTable() {
+        const sql = `CREATE TABLE IF NOT EXISTS tab_tasks (
+                        id INT NOT NULL AUTO_INCREMENT,
+                        title VARCHAR(100) NOT NULL,
+                        description VARCHAR(500),
+                        status VARCHAR(20),
+                        PRIMARY KEY(id)
+                    );`
+
+        this.connection.query(sql, (error, result) => {
+            if(error) {
+                console.error("Não foi possível criar as tabelas do banco de dados: ", error)
+            } else {
+                if(result.warningCount === 0) 
+                    console.log("Tabelas do banco de dados criada com sucesso.")
+            }
+        })
+    }
+
     createConnection() {
         this.connection.on("error", (error) => {
             console.error("Erro ao estabelecer a conexão: ", error)

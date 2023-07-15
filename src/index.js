@@ -10,4 +10,6 @@ app.use(router)
 
 Database.createConnection()
 
+Database.createTable()
+
 export default app
