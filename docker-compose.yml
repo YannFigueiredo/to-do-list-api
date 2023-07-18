@@ -5,8 +5,8 @@ services:
     image: mysql:latest
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=admin
-      - MYSQL_DATABASE=todolist
+      - MYSQL_ROOT_PASSWORD=$$MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE=$$MYSQL_DATABASE9
     volumes:
       - ./data:/var/lib/mysql
     ports:
