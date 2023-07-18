@@ -1,12 +1,15 @@
 import mysql from "mysql2"
+import dotenv from "dotenv"
+
+dotenv.config()
 
 class Database {
     connection = mysql.createConnection({
-        user: "root",
-        password: "admin",
-        host: "localhost",
-        port: "3307",
-        database: "todolist"
+        user: process.env.MYSQL_USER,
+        password: process.env.MYSQL_PASSWORD,
+        host: process.env.MYSQL_HOST,
+        port: process.env.MYSQL_PORT,
+        database: process.env.MYSQL_DATABASE
     })
 
     createTable() {
