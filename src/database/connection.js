@@ -5,8 +5,8 @@ class Database {
         user: "root",
         password: "admin",
         host: "localhost",
-        port: "3306",
-        database: "db_todolist"
+        port: "3307",
+        database: "todolist"
     })
 
     createTable() {
