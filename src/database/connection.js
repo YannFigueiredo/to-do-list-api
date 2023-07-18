@@ -1,4 +1,4 @@
-import mysql from "mysql"
+import mysql from "mysql2"
 
 class Database {
     connection = mysql.createConnection({
@@ -18,7 +18,7 @@ class Database {
                         PRIMARY KEY(id)
                     );`
 
-        this.connection.query(sql, (error, result) => {
+        this.connection.execute(sql, (error, result) => {
             if(error) {
                 console.error("Não foi possível criar as tabelas do banco de dados: ", error)
             } else {
