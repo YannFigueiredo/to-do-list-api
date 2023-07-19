@@ -1,34 +1,40 @@
 import Database from "../database/connection.js"
 
 class TaskRepository {
-    create(task) {
-        const sql = "INSERT INTO tab_tasks SET ?;"
+    async create(task) {
+        const { title, description, status } = task;
+        const sql = "INSERT INTO tab_tasks(title, description, status) VALUES(?, ?, ?)"
 
-        return Database.processConsult(sql, task, "Tarefa não criada.")
+        return await Database.connection.execute(sql, [title, description, status])
     }
 
-    getAll() {
-        const sql = "SELECT * FROM tab_tasks;"
+    async getAll() {
+        const sql = "SELECT * FROM tab_tasks"
 
-        return Database.processConsult(sql, "Tarefas não encontradas.")
+        const [tasks] = await Database.connection.execute(sql)
+
+        return tasks
     }
 
-    getById(id) {
-        const sql = "SELECT * FROM tab_tasks WHERE id=?;"
+    async getById(id) {
+        const sql = "SELECT * FROM tab_tasks WHERE id=?"
 
-        return Database.processConsult(sql, id, "Tarefa não encontrada.")
+        const [task] = await Database.connection.execute(sql, [id])
+
+        return task
     }
 
-    update(id, task) {
-        const sql = "UPDATE tab_tasks SET ? WHERE id=?;"
+    async update(id, task) {
+        const { title, description, status } = task;
+        const sql = "UPDATE tab_tasks SET title=?, description=?, status=? WHERE id=?"     
 
-        return Database.processConsult(sql, [id, task], "Tarefa não atualizada.")
+        return await Database.connection.execute(sql, [title, description, status, id])
     }
 
-    delete(id) {
-        const sql = "DELETE FROM tab_tasks WHERE id=?;"
+    async delete(id) {
+        const sql = "DELETE FROM tab_tasks WHERE id=?"
 
-        return Database.processConsult(sql, id, "Tarefa não deletada.")
+        return await Database.connection.execute(sql, [id])
     }
 }
 

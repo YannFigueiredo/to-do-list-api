@@ -2,12 +2,16 @@ import TaskRepository from "../repositories/TaskRepository.js"
 
 class TaskController {
     async createTask(req, res) {
-        const task = req.body
+        const task = {
+            title: req.body.title,
+            description: req.body.description || null,
+            status: req.body.status || "a fazer"
+        }
 
         const result = await TaskRepository.create(task)
 
         if(result) {
-            res.status(201).json(result)
+            res.status(201).json({...result[0], msg: "Tarefa criada com sucesso"})
         } else {
             res.status(400).json({errorMsg: "Tarefa não criada."})
         }
@@ -24,7 +28,7 @@ class TaskController {
     }
     
     async listTask(req, res) {
-        const id = req.params.id
+        const { id } = req.params
 
         const result = await TaskRepository.getById(id)
 
@@ -41,35 +45,39 @@ class TaskController {
     }
 
     async updateTask(req, res) {
-        const id = req.params.id
-        const task = req.body
+        const { id } = req.params
+        const task = {
+            title: req.body.title,
+            description: req.body.description,
+            status: req.body.status
+        }
 
         const result = await TaskRepository.update(id, task)
 
-        if(result && result.affectedRows === 0) {
-            res.status(404).json({errorMsg: "Tarefa não encontrada.", databaseInformation: result})
+        if(result && result[0].affectedRows === 0) {
+            res.status(404).json({errorMsg: "Tarefa não encontrada."})
             return
         }
 
         if(result) {
-            res.status(200).json(result)
+            res.status(200).json({...result[0], msg: "Tarefa atualizada com sucesso."})
         } else {
             res.status(400).json({errorMsg: "Tarefa não atualizada."})
         }
     }
 
     async deleteTask(req, res) {
-        const id = req.params.id
+        const { id } = req.params
 
         const result = await TaskRepository.delete(id)
 
-        if(result && result.affectedRows === 0) {
-            res.status(404).json({errorMsg: "Tarefa não encontrada.", databaseInformation: result})
+        if(result && result[0].affectedRows === 0) {
+            res.status(404).json({errorMsg: "Tarefa não encontrada."})
             return
         }
 
         if(result) {
-            res.status(200).json(result)
+            res.status(200).json({...result[0], msg: "Tarefa deletada com sucesso."})
         } else {
             res.status(400).json({errorMsg: "Tarefa não deletada."})
         }

@@ -11,8 +11,6 @@ app.use(router)
 
 dotenv.config()
 
-Database.createConnection()
-
 Database.createTable()
 
 export default app
