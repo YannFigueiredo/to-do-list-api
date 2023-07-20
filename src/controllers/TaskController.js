@@ -46,11 +46,7 @@ class TaskController {
 
     async updateTask(req, res) {
         const { id } = req.params
-        const task = {
-            title: req.body.title,
-            description: req.body.description,
-            status: req.body.status
-        }
+        const task = req.body
 
         const result = await TaskRepository.update(id, task)
 

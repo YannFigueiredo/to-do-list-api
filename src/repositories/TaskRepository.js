@@ -25,10 +25,31 @@ class TaskRepository {
     }
 
     async update(id, task) {
-        const { title, description, status } = task;
-        const sql = "UPDATE tab_tasks SET title=?, description=?, status=? WHERE id=?"     
+        let sql = "UPDATE tab_tasks SET "  
+        let values = []
+        
+        if(task.title) {
+            sql += "title=?, "
+            values.push(task.title)
+        }
 
-        return await Database.connection.execute(sql, [title, description, status, id])
+        if(task.description) {
+            sql += "description=?, "
+            values.push(task.description)
+        }
+            
+        if(task.status) {
+            sql += "status=? "
+            values.push(task.status)
+        }
+        
+        sql = sql[sql.length - 2] === "," ? sql.slice(0, sql.length - 2) + " " : sql
+
+        sql += "WHERE id=?"
+
+        values.push(id)
+
+        return await Database.connection.execute(sql, values)
     }
 
     async delete(id) {
